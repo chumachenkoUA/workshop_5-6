@@ -10,6 +10,7 @@ export class User {
 
   @Column({
     unique: true,
+    length: 100,
   })
   email: string;
 
@@ -19,11 +20,13 @@ export class User {
   @Column({
     nullable: true,
     unique: true,
+    length: 40,
   })
   username: string;
 
   @Column({
     nullable: true,
+    length: 40,
   })
   name: string;
 
