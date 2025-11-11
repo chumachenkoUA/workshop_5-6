@@ -12,6 +12,7 @@ import routes from './routes';
 import routeStops from './routeStops';
 import schedules from './schedules';
 import stops from './stops';
+import tickets from './tickets';
 import users from './users';
 
 const router = Router();
@@ -28,6 +29,7 @@ router.use('/route-stops', routeStops);
 router.use('/routes', routes);
 router.use('/schedules', schedules);
 router.use('/stops', stops);
+router.use('/tickets', tickets);
 router.use('/users', users);
 
 export default router;
