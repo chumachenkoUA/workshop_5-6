@@ -9,6 +9,8 @@ import fineAppeals from './fineAppeals';
 import fines from './fines';
 import routePoints from './routePoints';
 import routes from './routes';
+import routeStops from './routeStops';
+import schedules from './schedules';
 import users from './users';
 
 const router = Router();
@@ -21,7 +23,9 @@ router.use('/drivers', drivers);
 router.use('/fine-appeals', fineAppeals);
 router.use('/fines', fines);
 router.use('/route-points', routePoints);
+router.use('/route-stops', routeStops);
 router.use('/routes', routes);
+router.use('/schedules', schedules);
 router.use('/users', users);
 
 export default router;
