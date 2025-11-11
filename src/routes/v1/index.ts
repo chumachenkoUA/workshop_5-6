@@ -16,6 +16,7 @@ import tickets from './tickets';
 import transitUsers from './transitUsers';
 import transportCards from './transportCards';
 import transportTypes from './transportTypes';
+import trips from './trips';
 import users from './users';
 
 const router = Router();
@@ -36,6 +37,7 @@ router.use('/tickets', tickets);
 router.use('/transit-users', transitUsers);
 router.use('/transport-cards', transportCards);
 router.use('/transport-types', transportTypes);
+router.use('/trips', trips);
 router.use('/users', users);
 
 export default router;
