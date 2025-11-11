@@ -11,6 +11,7 @@ import routePoints from './routePoints';
 import routes from './routes';
 import routeStops from './routeStops';
 import schedules from './schedules';
+import stops from './stops';
 import users from './users';
 
 const router = Router();
@@ -26,6 +27,7 @@ router.use('/route-points', routePoints);
 router.use('/route-stops', routeStops);
 router.use('/routes', routes);
 router.use('/schedules', schedules);
+router.use('/stops', stops);
 router.use('/users', users);
 
 export default router;
