@@ -19,7 +19,7 @@ router.use('/driver-assignments', driverAssignments);
 router.use('/drivers', drivers);
 router.use('/fine-appeals', fineAppeals);
 router.use('/fines', fines);
-router.use('/routes', routes);
+router.use('/routes_', routes);
 router.use('/users', users);
 
 export default router;

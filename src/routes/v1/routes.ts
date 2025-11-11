@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { create, destroy, edit, list, show } from 'controllers/routes';
+import { create, destroy, edit, list, show } from 'controllers/routes_';
 import { checkJwt } from 'middleware/checkJwt';
 import { checkRole } from 'middleware/checkRole';
 
