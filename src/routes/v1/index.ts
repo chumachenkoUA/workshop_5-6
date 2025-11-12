@@ -17,7 +17,10 @@ import transitUsers from './transitUsers';
 import transportCards from './transportCards';
 import transportTypes from './transportTypes';
 import trips from './trips';
+import userGpsLogs from './userGpsLogs';
 import users from './users';
+import vehicleGpsLogs from './vehicleGpsLogs';
+import vehicles from './vehicles';
 
 const router = Router();
 
@@ -38,6 +41,9 @@ router.use('/transit-users', transitUsers);
 router.use('/transport-cards', transportCards);
 router.use('/transport-types', transportTypes);
 router.use('/trips', trips);
+router.use('/user-gps-logs', userGpsLogs);
+router.use('/vehicles', vehicles);
+router.use('/vehicle-gps-logs', vehicleGpsLogs);
 router.use('/users', users);
 
 export default router;
