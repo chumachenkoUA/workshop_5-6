@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Driver } from 'orm/entities/transit/Driver';
-
-import { serializeDriver } from './serializer';
-import { driverRelations } from './shared';
+import { DriverResponseDTO } from 'dto/drivers/DriverResponseDTO';
+import { DriverService } from 'services/drivers/DriverService';
 
 export const list = async (req: Request, res: Response) => {
-  const driverRepository = getRepository(Driver);
+  const driverService = new DriverService();
+  const drivers = await driverService.findAll();
 
-  const drivers = await driverRepository.find({
-    relations: driverRelations,
-    order: { id: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Drivers fetched.', drivers.map(serializeDriver));
+  return res.customSuccess(
+    200,
+    'Drivers fetched.',
+    drivers.map((driver) => new DriverResponseDTO(driver)),
+  );
 };

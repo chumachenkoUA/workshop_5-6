@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Stop } from 'orm/entities/transit/Stop';
-
-import { serializeStop } from './serializer';
-import { stopRelations } from './shared';
+import { StopResponseDTO } from 'dto/stops/StopResponseDTO';
+import { StopService } from 'services/stops/StopService';
 
 export const list = async (req: Request, res: Response) => {
-  const stopRepository = getRepository(Stop);
+  const stopService = new StopService();
+  const stops = await stopService.findAll();
 
-  const stops = await stopRepository.find({
-    relations: stopRelations,
-    order: { id: 'ASC' },
-  });
-
-  return res.customSuccess(200, 'Stops fetched.', stops.map(serializeStop));
+  return res.customSuccess(
+    200,
+    'Stops fetched.',
+    stops.map((stop) => new StopResponseDTO(stop)),
+  );
 };

@@ -11,10 +11,3 @@ export const normalizeIdParam = (value: unknown, fieldName: string) => {
 
   return value.toString();
 };
-
-export const normalizeName = (value: unknown) => {
-  if (typeof value !== 'string' || !value.trim()) {
-    throw new CustomError(422, 'Validation', 'Transport type name is required.');
-  }
-  return value.trim();
-};

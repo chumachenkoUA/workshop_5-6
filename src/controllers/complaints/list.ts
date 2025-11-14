@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Complaint } from 'orm/entities/transit/Complaint';
-
-import { serializeComplaint } from './serializer';
-import { complaintRelations } from './shared';
+import { ComplaintResponseDTO } from 'dto/complaints/ComplaintResponseDTO';
+import { ComplaintService } from 'services/complaints/ComplaintService';
 
 export const list = async (req: Request, res: Response) => {
-  const complaintRepository = getRepository(Complaint);
+  const complaintService = new ComplaintService();
+  const complaints = await complaintService.findAll();
 
-  const complaints = await complaintRepository.find({
-    relations: complaintRelations,
-    order: { id: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Complaints fetched.', complaints.map(serializeComplaint));
+  return res.customSuccess(
+    200,
+    'Complaints fetched.',
+    complaints.map((complaint) => new ComplaintResponseDTO(complaint)),
+  );
 };

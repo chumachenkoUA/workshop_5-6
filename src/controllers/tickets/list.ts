@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Ticket } from 'orm/entities/transit/Ticket';
-
-import { serializeTicket } from './serializer';
-import { ticketRelations } from './shared';
+import { TicketResponseDTO } from 'dto/tickets/TicketResponseDTO';
+import { TicketService } from 'services/tickets/TicketService';
 
 export const list = async (req: Request, res: Response) => {
-  const ticketRepository = getRepository(Ticket);
+  const ticketService = new TicketService();
+  const tickets = await ticketService.findAll();
 
-  const tickets = await ticketRepository.find({
-    relations: ticketRelations,
-    order: { purchasedAt: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Tickets fetched.', tickets.map(serializeTicket));
+  return res.customSuccess(
+    200,
+    'Tickets fetched.',
+    tickets.map((ticket) => new TicketResponseDTO(ticket)),
+  );
 };

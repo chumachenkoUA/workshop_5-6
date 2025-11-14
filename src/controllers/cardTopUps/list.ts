@@ -1,17 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { CardTopUp } from 'orm/entities/transit/CardTopUp';
-
-import { serializeCardTopUp } from './serializer';
+import { CardTopUpResponseDTO } from 'dto/cardTopUps/CardTopUpResponseDTO';
+import { CardTopUpService } from 'services/cardTopUps/CardTopUpService';
 
 export const list = async (req: Request, res: Response) => {
-  const cardTopUpRepository = getRepository(CardTopUp);
+  const cardTopUpService = new CardTopUpService();
+  const topUps = await cardTopUpService.findAll();
 
-  const topUps = await cardTopUpRepository.find({
-    relations: ['card', 'card.user'],
-    order: { rechargedAt: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Card top-ups fetched.', topUps.map(serializeCardTopUp));
+  return res.customSuccess(
+    200,
+    'Card top-ups fetched.',
+    topUps.map((topUp) => new CardTopUpResponseDTO(topUp)),
+  );
 };

@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Schedule } from 'orm/entities/transit/Schedule';
-
-import { serializeSchedule } from './serializer';
-import { scheduleRelations } from './shared';
+import { ScheduleResponseDTO } from 'dto/schedules/ScheduleResponseDTO';
+import { ScheduleService } from 'services/schedules/ScheduleService';
 
 export const list = async (req: Request, res: Response) => {
-  const scheduleRepository = getRepository(Schedule);
+  const scheduleService = new ScheduleService();
+  const schedules = await scheduleService.findAll();
 
-  const schedules = await scheduleRepository.find({
-    relations: scheduleRelations,
-    order: { id: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Schedules fetched.', schedules.map(serializeSchedule));
+  return res.customSuccess(
+    200,
+    'Schedules fetched.',
+    schedules.map((schedule) => new ScheduleResponseDTO(schedule)),
+  );
 };

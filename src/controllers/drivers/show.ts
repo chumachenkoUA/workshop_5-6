@@ -1,22 +1,11 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Driver } from 'orm/entities/transit/Driver';
-import { CustomError } from 'utils/response/custom-error/CustomError';
-
-import { serializeDriver } from './serializer';
-import { driverRelations } from './shared';
-import { normalizeIdParam } from './validators';
+import { DriverResponseDTO } from 'dto/drivers/DriverResponseDTO';
+import { DriverService } from 'services/drivers/DriverService';
 
 export const show = async (req: Request, res: Response) => {
-  const id = normalizeIdParam(req.params.id, 'Driver id');
+  const driverService = new DriverService();
+  const driver = await driverService.findOneOrFail(req.params.id);
 
-  const driverRepository = getRepository(Driver);
-  const driver = await driverRepository.findOne(id, { relations: driverRelations });
-
-  if (!driver) {
-    throw new CustomError(404, 'General', `Driver with id:${id} not found.`);
-  }
-
-  return res.customSuccess(200, 'Driver fetched.', serializeDriver(driver));
+  return res.customSuccess(200, 'Driver fetched.', new DriverResponseDTO(driver));
 };

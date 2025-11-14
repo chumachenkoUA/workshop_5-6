@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { RoutePoint } from 'orm/entities/transit/RoutePoint';
-
-import { serializeRoutePoint } from './serializer';
-import { routePointRelations } from './shared';
+import { RoutePointResponseDTO } from 'dto/routePoints/RoutePointResponseDTO';
+import { RoutePointService } from 'services/routePoints/RoutePointService';
 
 export const list = async (req: Request, res: Response) => {
-  const routePointRepository = getRepository(RoutePoint);
+  const routePointService = new RoutePointService();
+  const points = await routePointService.findAll();
 
-  const points = await routePointRepository.find({
-    relations: routePointRelations,
-    order: { id: 'ASC' },
-  });
-
-  return res.customSuccess(200, 'Route points fetched.', points.map(serializeRoutePoint));
+  return res.customSuccess(
+    200,
+    'Route points fetched.',
+    points.map((point) => new RoutePointResponseDTO(point)),
+  );
 };

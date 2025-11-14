@@ -1,33 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Stop } from 'orm/entities/transit/Stop';
-import { CustomError } from 'utils/response/custom-error/CustomError';
-
-import { serializeStop } from './serializer';
-import { stopRelations } from './shared';
-import { normalizeIdParam, normalizeLatitude, normalizeLongitude, normalizeName } from './validators';
+import { StopResponseDTO } from 'dto/stops/StopResponseDTO';
+import { StopService } from 'services/stops/StopService';
 
 export const edit = async (req: Request, res: Response) => {
-  const id = normalizeIdParam(req.params.id, 'Stop id');
-  const name = normalizeName(req.body.name);
-  const latitude = normalizeLatitude(req.body.latitude);
-  const longitude = normalizeLongitude(req.body.longitude);
-
-  const stopRepository = getRepository(Stop);
-  const stop = await stopRepository.findOne(id, {
-    relations: stopRelations,
+  const stopService = new StopService();
+  const stop = await stopService.update(req.params.id, {
+    name: req.body.name,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
   });
 
-  if (!stop) {
-    throw new CustomError(404, 'General', `Stop with id:${id} not found.`);
-  }
-
-  stop.name = name;
-  stop.latitude = latitude;
-  stop.longitude = longitude;
-
-  await stopRepository.save(stop);
-
-  return res.customSuccess(200, 'Stop updated.', serializeStop(stop));
+  return res.customSuccess(200, 'Stop updated.', new StopResponseDTO(stop));
 };

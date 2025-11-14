@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Route } from 'orm/entities/transit/Route';
-
-import { serializeRoute } from './serializer';
-import { routeRelations } from './shared';
+import { RouteResponseDTO } from 'dto/routes/RouteResponseDTO';
+import { RouteService } from 'services/routes/RouteService';
 
 export const list = async (req: Request, res: Response) => {
-  const routeRepository = getRepository(Route);
+  const routeService = new RouteService();
+  const routes = await routeService.findAll();
 
-  const routes = await routeRepository.find({
-    relations: routeRelations,
-    order: { id: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Routes fetched.', routes.map(serializeRoute));
+  return res.customSuccess(
+    200,
+    'Routes fetched.',
+    routes.map((route) => new RouteResponseDTO(route)),
+  );
 };

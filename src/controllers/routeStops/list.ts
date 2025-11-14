@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { RouteStop } from 'orm/entities/transit/RouteStop';
-
-import { serializeRouteStop } from './serializer';
-import { routeStopRelations } from './shared';
+import { RouteStopResponseDTO } from 'dto/routeStops/RouteStopResponseDTO';
+import { RouteStopService } from 'services/routeStops/RouteStopService';
 
 export const list = async (req: Request, res: Response) => {
-  const routeStopRepository = getRepository(RouteStop);
+  const routeStopService = new RouteStopService();
+  const routeStops = await routeStopService.findAll();
 
-  const routeStops = await routeStopRepository.find({
-    relations: routeStopRelations,
-    order: { id: 'ASC' },
-  });
-
-  return res.customSuccess(200, 'Route stops fetched.', routeStops.map(serializeRouteStop));
+  return res.customSuccess(
+    200,
+    'Route stops fetched.',
+    routeStops.map((routeStop) => new RouteStopResponseDTO(routeStop)),
+  );
 };
