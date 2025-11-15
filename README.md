@@ -62,6 +62,88 @@ Containers created:
 - Commit messages must meet [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) format.  
   After staging changes just run `npm run commit` and get instant feedback on your commit message formatting and be prompted for required fields by [Commitizen](https://github.com/commitizen/cz-cli)
 
+## Workshop 6 Architecture (services+ validation + DTO)
+
+To keep controllers slim we introduced three explicit layers:
+
+- **Middleware validation** – e.g. `src/middleware/validation/trips.ts` trims/normalises IDs, converts dates and rejects invalid payloads _before_ a controller executes.
+- **Controllers** – request orchestration only. They create a service instance, pass already validated data, and shape the HTTP response.
+- **Services** – all business logic and repository access (TypeORM) live here. Every entity has a single service (`src/services/**`) that hides persistence details from controllers.
+- **Repositories/DataSource** – managed solely by services through `getRepository`, keeping data access isolated.
+
+### Example middleware
+
+```ts
+// src/middleware/validation/trips.ts
+export const validateTripPayload = (req, _res, next) => {
+  req.body.routeId = parseId(req.body.routeId, 'Route id');
+  req.body.vehicleId = parseId(req.body.vehicleId, 'Vehicle id');
+  req.body.driverId = parseId(req.body.driverId, 'Driver id');
+  req.body.startedAt = parseDate(req.body.startedAt, 'Started at');
+  req.body.endedAt = parseDate(req.body.endedAt, 'Ended at');
+  if (req.body.endedAt <= req.body.startedAt) {
+    throw new CustomError(422, 'Validation', 'Ended at must be greater than started at.');
+  }
+  req.body.passengerCount = parsePassengerCount(req.body.passengerCount);
+  return next();
+};
+```
+
+### Example DTO + service
+
+```ts
+// src/dto/stops/StopResponseDTO.ts
+export class StopResponseDTO {
+  constructor(stop: Stop) {
+    this.id = stop.id;
+    this.name = stop.name;
+    this.latitude = stop.latitude;
+    this.longitude = stop.longitude;
+    this.routeStops =
+      stop.routeStops?.map((routeStop) => ({
+        id: routeStop.id,
+        route: routeStop.route
+          ? {
+              id: routeStop.route.id,
+              number: routeStop.route.number,
+              direction: routeStop.route.direction,
+              transportType: routeStop.route.transportType
+                ? { id: routeStop.route.transportType.id, name: routeStop.route.transportType.name }
+                : null,
+            }
+          : null,
+      })) ?? [];
+  }
+}
+```
+
+```ts
+// src/services/stops/StopService.ts
+export class StopService {
+  private stopRepository = getRepository(Stop);
+
+  public async create(payload: StopPayload): Promise<Stop> {
+    const stop = this.stopRepository.create(payload);
+    const saved = await this.stopRepository.save(stop);
+    return this.findOneOrFail(saved.id);
+  }
+
+  public async delete(id: string): Promise<void> {
+    const deleteResult = await this.stopRepository.delete(id);
+    if (!deleteResult.affected) {
+      throw new CustomError(404, 'General', `Stop with id:${id} not found.`);
+    }
+  }
+}
+```
+
+### Postman flows
+
+- **Validation error** (middleware rejects malformed payload):  
+  ![Validation error screenshot](docs/screenshots/workshop-6/validation-error.png)
+- **Successful DTO response** (controller returns DTO-wrapped entity):  
+  ![Success screenshot](docs/screenshots/workshop-6/success-response.png)
+
 ## Other awesome boilerplates:
 
 Each boilerplate comes with it's own flavor of libraries and setup, check out others:
