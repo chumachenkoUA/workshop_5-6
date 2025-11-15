@@ -1,24 +1,11 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Trip } from 'orm/entities/transit/Trip';
-import { CustomError } from 'utils/response/custom-error/CustomError';
-
-import { serializeTrip } from './serializer';
-import { tripRelations } from './shared';
-import { normalizeIdParam } from './validators';
+import { TripResponseDTO } from 'dto/trips/TripResponseDTO';
+import { TripService } from 'services/trips/TripService';
 
 export const show = async (req: Request, res: Response) => {
-  const id = normalizeIdParam(req.params.id, 'Trip id');
+  const tripService = new TripService();
+  const trip = await tripService.findOneOrFail(req.params.id);
 
-  const tripRepository = getRepository(Trip);
-  const trip = await tripRepository.findOne(id, {
-    relations: tripRelations,
-  });
-
-  if (!trip) {
-    throw new CustomError(404, 'General', `Trip with id:${id} not found.`);
-  }
-
-  return res.customSuccess(200, 'Trip fetched.', serializeTrip(trip));
+  return res.customSuccess(200, 'Trip fetched.', new TripResponseDTO(trip));
 };

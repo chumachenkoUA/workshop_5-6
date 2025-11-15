@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Fine } from 'orm/entities/transit/Fine';
-
-import { serializeFine } from './serializer';
-import { fineRelations } from './shared';
+import { FineResponseDTO } from 'dto/fines/FineResponseDTO';
+import { FineService } from 'services/fines/FineService';
 
 export const list = async (req: Request, res: Response) => {
-  const fineRepository = getRepository(Fine);
+  const fineService = new FineService();
+  const fines = await fineService.findAll();
 
-  const fines = await fineRepository.find({
-    relations: fineRelations,
-    order: { issuedAt: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Fines fetched.', fines.map(serializeFine));
+  return res.customSuccess(
+    200,
+    'Fines fetched.',
+    fines.map((fine) => new FineResponseDTO(fine)),
+  );
 };

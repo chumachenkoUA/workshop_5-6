@@ -1,51 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Fine } from 'orm/entities/transit/Fine';
-import { TransitUser } from 'orm/entities/transit/TransitUser';
-import { Trip } from 'orm/entities/transit/Trip';
-import { CustomError } from 'utils/response/custom-error/CustomError';
-
-import { serializeFine } from './serializer';
-import { fineRelations } from './shared';
-import { normalizeIdParam, normalizeStatus } from './validators';
+import { FineResponseDTO } from 'dto/fines/FineResponseDTO';
+import { FineService } from 'services/fines/FineService';
 
 export const edit = async (req: Request, res: Response) => {
-  const id = normalizeIdParam(req.params.id, 'Fine id');
-  const userId = normalizeIdParam(req.body.userId, 'User id');
-  const tripId = normalizeIdParam(req.body.tripId, 'Trip id');
-  const status = normalizeStatus(req.body.status);
-
-  const fineRepository = getRepository(Fine);
-  const fine = await fineRepository.findOne(id, {
-    relations: fineRelations,
+  const fineService = new FineService();
+  const fine = await fineService.update(req.params.id, {
+    userId: req.body.userId,
+    tripId: req.body.tripId,
+    status: req.body.status,
   });
 
-  if (!fine) {
-    throw new CustomError(404, 'General', `Fine with id:${id} not found.`);
-  }
-
-  const userRepository = getRepository(TransitUser);
-  const tripRepository = getRepository(Trip);
-
-  const [user, trip] = await Promise.all([
-    userRepository.findOne(userId),
-    tripRepository.findOne(tripId, { relations: ['route'] }),
-  ]);
-
-  if (!user) {
-    throw new CustomError(404, 'General', `Transit user with id:${userId} not found.`);
-  }
-
-  if (!trip) {
-    throw new CustomError(404, 'General', `Trip with id:${tripId} not found.`);
-  }
-
-  fine.user = user;
-  fine.trip = trip;
-  fine.status = status;
-
-  await fineRepository.save(fine);
-
-  return res.customSuccess(200, 'Fine updated.', serializeFine(fine));
+  return res.customSuccess(200, 'Fine updated.', new FineResponseDTO(fine));
 };

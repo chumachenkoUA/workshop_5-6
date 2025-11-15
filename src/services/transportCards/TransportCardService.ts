@@ -1,0 +1,85 @@
+import { getRepository } from 'typeorm';
+
+import { TransitUser } from 'orm/entities/transit/TransitUser';
+import { TransportCard } from 'orm/entities/transit/TransportCard';
+import { CustomError } from 'utils/response/custom-error/CustomError';
+
+const RELATIONS = ['user', 'tickets', 'topUps'];
+
+type TransportCardPayload = {
+  userId: string;
+  number: string;
+  balance: string;
+};
+
+export class TransportCardService {
+  private transportCardRepository = getRepository(TransportCard);
+  private transitUserRepository = getRepository(TransitUser);
+
+  public async findAll(): Promise<TransportCard[]> {
+    return this.transportCardRepository.find({
+      relations: RELATIONS,
+      order: { id: 'DESC' },
+    });
+  }
+
+  public async findOneOrFail(id: string): Promise<TransportCard> {
+    const card = await this.transportCardRepository.findOne(id, { relations: RELATIONS });
+    if (!card) {
+      throw new CustomError(404, 'General', `Transport card with id:${id} not found.`);
+    }
+    return card;
+  }
+
+  public async create(payload: TransportCardPayload): Promise<TransportCard> {
+    const user = await this.transitUserRepository.findOne(payload.userId, { relations: ['transportCard'] });
+
+    if (!user) {
+      throw new CustomError(404, 'General', `Transit user with id:${payload.userId} not found.`);
+    }
+
+    if (user.transportCard) {
+      throw new CustomError(409, 'General', `Transit user with id:${payload.userId} already has a transport card.`);
+    }
+
+    const card = this.transportCardRepository.create({
+      user,
+      number: payload.number,
+      balance: payload.balance,
+    });
+
+    const saved = await this.transportCardRepository.save(card);
+    return this.findOneOrFail(saved.id);
+  }
+
+  public async update(id: string, payload: TransportCardPayload): Promise<TransportCard> {
+    const card = await this.findOneOrFail(id);
+    const user = await this.transitUserRepository.findOne(payload.userId, { relations: ['transportCard'] });
+
+    if (!user) {
+      throw new CustomError(404, 'General', `Transit user with id:${payload.userId} not found.`);
+    }
+
+    if (user.transportCard && user.transportCard.id !== card.id) {
+      throw new CustomError(
+        409,
+        'General',
+        `Transit user with id:${payload.userId} already has another transport card.`,
+      );
+    }
+
+    card.user = user;
+    card.number = payload.number;
+    card.balance = payload.balance;
+
+    await this.transportCardRepository.save(card);
+    return this.findOneOrFail(id);
+  }
+
+  public async delete(id: string): Promise<void> {
+    const deleteResult = await this.transportCardRepository.delete(id);
+    if (!deleteResult.affected) {
+      throw new CustomError(404, 'General', `Transport card with id:${id} not found.`);
+    }
+  }
+}

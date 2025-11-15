@@ -1,18 +1,15 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { VehicleGpsLog } from 'orm/entities/transit/VehicleGpsLog';
-
-import { serializeVehicleGpsLog } from './serializer';
-import { vehicleGpsLogRelations } from './shared';
+import { VehicleGpsLogResponseDTO } from 'dto/vehicleGpsLogs/VehicleGpsLogResponseDTO';
+import { VehicleGpsLogService } from 'services/vehicleGpsLogs/VehicleGpsLogService';
 
 export const list = async (req: Request, res: Response) => {
-  const vehicleGpsLogRepository = getRepository(VehicleGpsLog);
+  const vehicleGpsLogService = new VehicleGpsLogService();
+  const logs = await vehicleGpsLogService.findAll();
 
-  const logs = await vehicleGpsLogRepository.find({
-    relations: vehicleGpsLogRelations,
-    order: { capturedAt: 'DESC' },
-  });
-
-  return res.customSuccess(200, 'Vehicle GPS logs fetched.', logs.map(serializeVehicleGpsLog));
+  return res.customSuccess(
+    200,
+    'Vehicle GPS logs fetched.',
+    logs.map((log) => new VehicleGpsLogResponseDTO(log)),
+  );
 };

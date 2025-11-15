@@ -1,24 +1,11 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 
-import { Fine } from 'orm/entities/transit/Fine';
-import { CustomError } from 'utils/response/custom-error/CustomError';
-
-import { serializeFine } from './serializer';
-import { fineRelations } from './shared';
-import { normalizeIdParam } from './validators';
+import { FineResponseDTO } from 'dto/fines/FineResponseDTO';
+import { FineService } from 'services/fines/FineService';
 
 export const show = async (req: Request, res: Response) => {
-  const id = normalizeIdParam(req.params.id, 'Fine id');
+  const fineService = new FineService();
+  const fine = await fineService.findOneOrFail(req.params.id);
 
-  const fineRepository = getRepository(Fine);
-  const fine = await fineRepository.findOne(id, {
-    relations: fineRelations,
-  });
-
-  if (!fine) {
-    throw new CustomError(404, 'General', `Fine with id:${id} not found.`);
-  }
-
-  return res.customSuccess(200, 'Fine fetched.', serializeFine(fine));
+  return res.customSuccess(200, 'Fine fetched.', new FineResponseDTO(fine));
 };
