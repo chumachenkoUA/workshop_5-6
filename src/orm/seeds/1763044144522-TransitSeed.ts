@@ -143,6 +143,28 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
       INSERT INTO vehicle_gps_logs (id, vehicle_id, longitude, latitude) VALUES
         (1,1,30.5280000,50.4510000);
     `);
+
+    await queryRunner.query(`
+      SELECT setval(pg_get_serial_sequence('transport_types','id'), COALESCE(MAX(id),0)) FROM transport_types;
+      SELECT setval(pg_get_serial_sequence('stops','id'), COALESCE(MAX(id),0)) FROM stops;
+      SELECT setval(pg_get_serial_sequence('transit_users','id'), COALESCE(MAX(id),0)) FROM transit_users;
+      SELECT setval(pg_get_serial_sequence('drivers','id'), COALESCE(MAX(id),0)) FROM drivers;
+      SELECT setval(pg_get_serial_sequence('routes','id'), COALESCE(MAX(id),0)) FROM routes;
+      SELECT setval(pg_get_serial_sequence('route_stops','id'), COALESCE(MAX(id),0)) FROM route_stops;
+      SELECT setval(pg_get_serial_sequence('route_points','id'), COALESCE(MAX(id),0)) FROM route_points;
+      SELECT setval(pg_get_serial_sequence('vehicles','id'), COALESCE(MAX(id),0)) FROM vehicles;
+      SELECT setval(pg_get_serial_sequence('driver_assignments','id'), COALESCE(MAX(id),0)) FROM driver_assignments;
+      SELECT setval(pg_get_serial_sequence('schedules','id'), COALESCE(MAX(id),0)) FROM schedules;
+      SELECT setval(pg_get_serial_sequence('transport_cards','id'), COALESCE(MAX(id),0)) FROM transport_cards;
+      SELECT setval(pg_get_serial_sequence('card_top_ups','id'), COALESCE(MAX(id),0)) FROM card_top_ups;
+      SELECT setval(pg_get_serial_sequence('trips','id'), COALESCE(MAX(id),0)) FROM trips;
+      SELECT setval(pg_get_serial_sequence('tickets','id'), COALESCE(MAX(id),0)) FROM tickets;
+      SELECT setval(pg_get_serial_sequence('fines','id'), COALESCE(MAX(id),0)) FROM fines;
+      SELECT setval(pg_get_serial_sequence('fine_appeals','id'), COALESCE(MAX(id),0)) FROM fine_appeals;
+      SELECT setval(pg_get_serial_sequence('complaints','id'), COALESCE(MAX(id),0)) FROM complaints;
+      SELECT setval(pg_get_serial_sequence('user_gps_logs','id'), COALESCE(MAX(id),0)) FROM user_gps_logs;
+      SELECT setval(pg_get_serial_sequence('vehicle_gps_logs','id'), COALESCE(MAX(id),0)) FROM vehicle_gps_logs;
+    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
