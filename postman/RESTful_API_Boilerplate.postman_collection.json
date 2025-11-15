@@ -55,9 +55,9 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/login",
+              "raw": "{{baseUrl}}/auth/login",
               "host": ["{{baseUrl}}"],
-              "path": ["login"]
+              "path": ["auth", "login"]
             }
           },
           "response": []
@@ -100,9 +100,9 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/register",
+              "raw": "{{baseUrl}}/auth/register",
               "host": ["{{baseUrl}}"],
-              "path": ["register"]
+              "path": ["auth", "register"]
             }
           },
           "response": []
@@ -150,9 +150,9 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/change-password",
+              "raw": "{{baseUrl}}/auth/change-password",
               "host": ["{{baseUrl}}"],
-              "path": ["change-password"]
+              "path": ["auth", "change-password"]
             }
           },
           "response": []
