@@ -9,7 +9,7 @@ export class CardTopUpResponseDTO {
     number: string;
   };
   user: {
-    id: string;
+    id: number;
     fullName: string;
   } | null;
 

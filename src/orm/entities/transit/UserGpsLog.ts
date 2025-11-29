@@ -1,15 +1,15 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { TransitUser } from './TransitUser';
+import { User } from '../users/User';
 
 @Entity({ name: 'user_gps_logs' })
 export class UserGpsLog {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: string;
 
-  @ManyToOne(() => TransitUser, (user) => user.gpsLogs, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.gpsLogs, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user: TransitUser;
+  user: User;
 
   @Column({ type: 'numeric', precision: 10, scale: 7 })
   longitude: string;

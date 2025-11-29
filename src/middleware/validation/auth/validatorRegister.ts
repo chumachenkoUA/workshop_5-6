@@ -6,18 +6,24 @@ import { CustomError } from 'utils/response/custom-error/CustomError';
 import { ErrorValidation } from 'utils/response/custom-error/types';
 
 export const validatorRegister = (req: Request, res: Response, next: NextFunction) => {
-  let { email, password, passwordConfirm } = req.body;
+  let { email, password, passwordConfirm, fullName, phone } = req.body;
   const errorsValidation: ErrorValidation[] = [];
 
-  email = !email ? '' : email;
-  password = !password ? '' : password;
-  passwordConfirm = !passwordConfirm ? '' : passwordConfirm;
+  email = !email ? '' : String(email);
+  password = !password ? '' : String(password);
+  passwordConfirm = !passwordConfirm ? '' : String(passwordConfirm);
+  fullName = !fullName ? '' : String(fullName);
+  phone = !phone ? '' : String(phone);
 
-  if (!validator.isEmail(email)) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedFullName = fullName.trim();
+  const normalizedPhone = phone.trim();
+
+  if (!validator.isEmail(normalizedEmail)) {
     errorsValidation.push({ email: 'Email is invalid' });
   }
 
-  if (validator.isEmpty(email)) {
+  if (validator.isEmpty(normalizedEmail)) {
     errorsValidation.push({ email: 'Email is required' });
   }
 
@@ -39,9 +45,20 @@ export const validatorRegister = (req: Request, res: Response, next: NextFunctio
     errorsValidation.push({ passwordConfirm: 'Passwords must match' });
   }
 
+  if (validator.isEmpty(normalizedFullName)) {
+    errorsValidation.push({ fullName: 'Full name is required' });
+  }
+
+  if (validator.isEmpty(normalizedPhone)) {
+    errorsValidation.push({ phone: 'Phone is required' });
+  }
+
   if (errorsValidation.length !== 0) {
     const customError = new CustomError(400, 'Validation', 'Register validation error', null, null, errorsValidation);
     return next(customError);
   }
+  req.body.email = normalizedEmail;
+  req.body.fullName = normalizedFullName;
+  req.body.phone = normalizedPhone;
   return next();
 };

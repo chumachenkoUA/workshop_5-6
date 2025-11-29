@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
-import { TransitUser } from 'orm/entities/transit/TransitUser';
 import { UserGpsLog } from 'orm/entities/transit/UserGpsLog';
+import { User } from 'orm/entities/users/User';
 import { CustomError } from 'utils/response/custom-error/CustomError';
 
 const RELATIONS = ['user'];
@@ -14,7 +14,7 @@ type UserGpsLogPayload = {
 
 export class UserGpsLogService {
   private logRepository = getRepository(UserGpsLog);
-  private userRepository = getRepository(TransitUser);
+  private userRepository = getRepository(User);
 
   public async findAll(): Promise<UserGpsLog[]> {
     return this.logRepository.find({
@@ -59,8 +59,8 @@ export class UserGpsLogService {
     }
   }
 
-  private async loadUser(userId: string): Promise<TransitUser> {
-    const user = await this.userRepository.findOne(userId);
+  private async loadUser(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: Number(userId), role: 'TRANSIT' } });
     if (!user) {
       throw new CustomError(404, 'General', `Transit user with id:${userId} not found.`);
     }

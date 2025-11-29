@@ -5,7 +5,7 @@ export class FineResponseDTO {
   status: string;
   issuedAt: Date;
   user: {
-    id: string;
+    id: number;
     fullName: string;
     phone: string;
     email: string;

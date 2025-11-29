@@ -6,7 +6,7 @@ export class UserGpsLogResponseDTO {
   longitude: string;
   capturedAt: Date;
   user: {
-    id: string;
+    id: number;
     fullName: string;
   } | null;
 

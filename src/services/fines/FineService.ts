@@ -1,8 +1,8 @@
 import { getRepository } from 'typeorm';
 
 import { Fine } from 'orm/entities/transit/Fine';
-import { TransitUser } from 'orm/entities/transit/TransitUser';
 import { Trip } from 'orm/entities/transit/Trip';
+import { User } from 'orm/entities/users/User';
 import { CustomError } from 'utils/response/custom-error/CustomError';
 
 const RELATIONS = ['user', 'trip', 'trip.route', 'appeal'];
@@ -15,7 +15,7 @@ type FinePayload = {
 
 export class FineService {
   private fineRepository = getRepository(Fine);
-  private userRepository = getRepository(TransitUser);
+  private userRepository = getRepository(User);
   private tripRepository = getRepository(Trip);
 
   public async findAll(): Promise<Fine[]> {
@@ -65,9 +65,9 @@ export class FineService {
     }
   }
 
-  private async resolveRelations(userId: string, tripId: string): Promise<[TransitUser, Trip]> {
+  private async resolveRelations(userId: string, tripId: string): Promise<[User, Trip]> {
     const [user, trip] = await Promise.all([
-      this.userRepository.findOne(userId),
+      this.userRepository.findOne({ where: { id: Number(userId), role: 'TRANSIT' } }),
       this.tripRepository.findOne(tripId, { relations: ['route'] }),
     ]);
 

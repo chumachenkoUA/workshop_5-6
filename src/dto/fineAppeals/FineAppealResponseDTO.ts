@@ -10,7 +10,7 @@ export class FineAppealResponseDTO {
     status: string;
     issuedAt: Date;
     user: {
-      id: string;
+      id: number;
       fullName: string;
       phone: string;
       email: string;

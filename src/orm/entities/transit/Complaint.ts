@@ -1,6 +1,7 @@
 import { Check, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { TransitUser } from './TransitUser';
+import { User } from '../users/User';
+
 import { Trip } from './Trip';
 
 @Check('complaints_status_check', "\"status\" IN ('Подано','Розглядається','Розглянуто')")
@@ -9,9 +10,9 @@ export class Complaint {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: string;
 
-  @ManyToOne(() => TransitUser, (user) => user.complaints)
+  @ManyToOne(() => User, (user) => user.complaints)
   @JoinColumn({ name: 'user_id' })
-  user: TransitUser;
+  user: User;
 
   @Column({ type: 'text' })
   type: string;

@@ -1,5 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
+const TRANSIT_DEFAULT_PASSWORD_HASH = '$2a$08$xxrYSNnHdTdhjef10Zf5sOL1ZLLuj/Zy4AbTNORX636t4NkWRvTKK';
+
 export class TransitSeed17630441445221763044144522 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -19,11 +21,11 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
     `);
 
     await queryRunner.query(`
-      INSERT INTO transit_users (id, email, phone, full_name) VALUES
-        (1,'pupkin@example.com','+380991112233','Пупкін Василь Олександрович'),
-        (2,'ivanova@example.com','+380992223344','Іванова Марія Сергіївна'),
-        (3,'bondar@example.com','+380993334455','Бондар Олег Ігорович'),
-        (4,'shevchenko@example.com','+380994445566','Шевченко Олена Петрівна');
+      INSERT INTO users (id, email, phone, full_name, name, password, role, registered_at) VALUES
+        (11,'pupkin@example.com','+380991112233','Пупкін Василь Олександрович','Пупкін Василь Олександрович','${TRANSIT_DEFAULT_PASSWORD_HASH}','TRANSIT', now()),
+        (12,'ivanova@example.com','+380992223344','Іванова Марія Сергіївна','Іванова Марія Сергіївна','${TRANSIT_DEFAULT_PASSWORD_HASH}','TRANSIT', now()),
+        (13,'bondar@example.com','+380993334455','Бондар Олег Ігорович','Бондар Олег Ігорович','${TRANSIT_DEFAULT_PASSWORD_HASH}','TRANSIT', now()),
+        (14,'shevchenko@example.com','+380994445566','Шевченко Олена Петрівна','Шевченко Олена Петрівна','${TRANSIT_DEFAULT_PASSWORD_HASH}','TRANSIT', now());
     `);
 
     await queryRunner.query(`
@@ -86,10 +88,10 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
 
     await queryRunner.query(`
       INSERT INTO transport_cards (id, user_id, balance, number) VALUES
-        (1,1,0,'CARD-0001'),
-        (2,2,0,'CARD-0002'),
-        (3,3,0,'CARD-0003'),
-        (4,4,0,'CARD-0004');
+        (1,11,0,'CARD-0001'),
+        (2,12,0,'CARD-0002'),
+        (3,13,0,'CARD-0003'),
+        (4,14,0,'CARD-0004');
     `);
 
     await queryRunner.query(`
@@ -117,8 +119,8 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
 
     await queryRunner.query(`
       INSERT INTO fines (id, user_id, status, trip_id, issued_at) VALUES
-        (1,2,'В процесі',1,'2025-06-09 08:30'),
-        (2,3,'Оплачено',2,'2025-06-09 09:20');
+        (1,12,'В процесі',1,'2025-06-09 08:30'),
+        (2,13,'Оплачено',2,'2025-06-09 09:20');
     `);
 
     await queryRunner.query(`
@@ -129,14 +131,14 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
 
     await queryRunner.query(`
       INSERT INTO complaints (id, user_id, type, message, trip_id, status) VALUES
-        (1,1,'Пропозиція','Будь ласка, додайте кондиціонер у салоні',1,'Подано'),
-        (2,4,'Скарга','Довго чекала на зупинці Парк',3,'Подано');
+        (1,11,'Пропозиція','Будь ласка, додайте кондиціонер у салоні',1,'Подано'),
+        (2,14,'Скарга','Довго чекала на зупинці Парк',3,'Подано');
     `);
 
     await queryRunner.query(`
       INSERT INTO user_gps_logs (id, user_id, longitude, latitude) VALUES
-        (1,1,30.5240000,50.4500000),
-        (2,2,30.5200000,50.4490000);
+        (1,11,30.5240000,50.4500000),
+        (2,12,30.5200000,50.4490000);
     `);
 
     await queryRunner.query(`
@@ -146,8 +148,8 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
 
     await queryRunner.query(`
       SELECT setval(pg_get_serial_sequence('transport_types','id'), COALESCE(MAX(id),0)) FROM transport_types;
+      SELECT setval(pg_get_serial_sequence('users','id'), COALESCE(MAX(id),0)) FROM users;
       SELECT setval(pg_get_serial_sequence('stops','id'), COALESCE(MAX(id),0)) FROM stops;
-      SELECT setval(pg_get_serial_sequence('transit_users','id'), COALESCE(MAX(id),0)) FROM transit_users;
       SELECT setval(pg_get_serial_sequence('drivers','id'), COALESCE(MAX(id),0)) FROM drivers;
       SELECT setval(pg_get_serial_sequence('routes','id'), COALESCE(MAX(id),0)) FROM routes;
       SELECT setval(pg_get_serial_sequence('route_stops','id'), COALESCE(MAX(id),0)) FROM route_stops;
@@ -184,7 +186,7 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
     await queryRunner.query(`DELETE FROM route_stops WHERE id IN (1,2,3,4,5,6,7,8);`);
     await queryRunner.query(`DELETE FROM routes WHERE id IN (1,2);`);
     await queryRunner.query(`DELETE FROM drivers WHERE id IN (1,2,3);`);
-    await queryRunner.query(`DELETE FROM transit_users WHERE id IN (1,2,3,4);`);
+    await queryRunner.query(`DELETE FROM users WHERE id IN (11,12,13,14);`);
     await queryRunner.query(`DELETE FROM stops WHERE id IN (1,2,3,4,5);`);
     await queryRunner.query(`DELETE FROM transport_types WHERE id IN (1,2,3);`);
   }

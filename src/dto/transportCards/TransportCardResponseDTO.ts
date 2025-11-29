@@ -1,7 +1,7 @@
 import { TransportCard } from 'orm/entities/transit/TransportCard';
 
 type UserPreview = {
-  id: string;
+  id: number;
   fullName: string;
 } | null;
 

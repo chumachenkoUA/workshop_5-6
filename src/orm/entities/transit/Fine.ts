@@ -1,7 +1,8 @@
 import { Check, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+import { User } from '../users/User';
+
 import { FineAppeal } from './FineAppeal';
-import { TransitUser } from './TransitUser';
 import { Trip } from './Trip';
 
 @Check('fines_status_check', "\"status\" IN ('В процесі','Оплачено','Відмінено','Просрочено')")
@@ -10,9 +11,9 @@ export class Fine {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: string;
 
-  @ManyToOne(() => TransitUser, (user) => user.fines)
+  @ManyToOne(() => User, (user) => user.fines)
   @JoinColumn({ name: 'user_id' })
-  user: TransitUser;
+  user: User;
 
   @Column({ type: 'text' })
   status: string;

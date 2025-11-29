@@ -1,13 +1,14 @@
 import { getRepository } from 'typeorm';
 
-import { TransitUser } from 'orm/entities/transit/TransitUser';
 import { UserGpsLog } from 'orm/entities/transit/UserGpsLog';
+import { Role } from 'orm/entities/users/types';
+import { User } from 'orm/entities/users/User';
 import { CustomError } from 'utils/response/custom-error/CustomError';
 
 const RELATIONS = ['transportCard', 'fines', 'complaints'];
 
 export type TransitUserWithGpsLog = {
-  user: TransitUser;
+  user: User;
   lastGpsLog: UserGpsLog | null;
 };
 
@@ -15,15 +16,17 @@ type TransitUserPayload = {
   email: string;
   phone: string;
   fullName: string;
+  password?: string;
 };
 
 export class TransitUserService {
-  private transitUserRepository = getRepository(TransitUser);
+  private userRepository = getRepository(User);
   private userGpsLogRepository = getRepository(UserGpsLog);
 
   public async findAll(): Promise<TransitUserWithGpsLog[]> {
-    const users = await this.transitUserRepository.find({
+    const users = await this.userRepository.find({
       relations: RELATIONS,
+      where: { role: 'TRANSIT' },
       order: { id: 'DESC' },
     });
 
@@ -34,8 +37,12 @@ export class TransitUserService {
     }));
   }
 
-  public async findOneOrFail(id: string): Promise<TransitUserWithGpsLog> {
-    const user = await this.transitUserRepository.findOne(id, { relations: RELATIONS });
+  public async findOneOrFail(id: string | number): Promise<TransitUserWithGpsLog> {
+    const numericId = Number(id);
+    const user = await this.userRepository.findOne({
+      relations: RELATIONS,
+      where: { id: numericId, role: 'TRANSIT' as Role },
+    });
     if (!user) {
       throw new CustomError(404, 'General', `Transit user with id:${id} not found.`);
     }
@@ -45,13 +52,23 @@ export class TransitUserService {
   }
 
   public async create(payload: TransitUserPayload): Promise<TransitUserWithGpsLog> {
-    const user = this.transitUserRepository.create(payload);
-    const saved = await this.transitUserRepository.save(user);
+    const user = this.userRepository.create({
+      email: payload.email,
+      phone: payload.phone,
+      fullName: payload.fullName,
+      name: payload.fullName,
+      role: 'TRANSIT' as Role,
+      registeredAt: new Date(),
+      password: payload.password ?? this.generateTemporaryPassword(),
+    });
+    user.hashPassword();
+
+    const saved = await this.userRepository.save(user);
     return this.findOneOrFail(saved.id);
   }
 
   public async update(id: string, payload: TransitUserPayload): Promise<TransitUserWithGpsLog> {
-    const user = await this.transitUserRepository.findOne(id);
+    const user = await this.userRepository.findOne({ where: { id: Number(id), role: 'TRANSIT' as Role } });
     if (!user) {
       throw new CustomError(404, 'General', `Transit user with id:${id} not found.`);
     }
@@ -60,18 +77,18 @@ export class TransitUserService {
     user.phone = payload.phone;
     user.fullName = payload.fullName;
 
-    await this.transitUserRepository.save(user);
+    await this.userRepository.save(user);
     return this.findOneOrFail(id);
   }
 
   public async delete(id: string): Promise<void> {
-    const deleteResult = await this.transitUserRepository.delete(id);
+    const deleteResult = await this.userRepository.delete({ id: Number(id), role: 'TRANSIT' });
     if (!deleteResult.affected) {
       throw new CustomError(404, 'General', `Transit user with id:${id} not found.`);
     }
   }
 
-  private async fetchLatestGpsLogsMap(userIds: string[]): Promise<Record<string, UserGpsLog>> {
+  private async fetchLatestGpsLogsMap(userIds: number[]): Promise<Record<number, UserGpsLog>> {
     if (!userIds.length) {
       return {};
     }
@@ -85,18 +102,22 @@ export class TransitUserService {
       .addOrderBy('log.captured_at', 'DESC')
       .getMany();
 
-    const map: Record<string, UserGpsLog> = {};
+    const map: Record<number, UserGpsLog> = {};
     logs.forEach((log) => {
       map[log.user.id] = log;
     });
     return map;
   }
 
-  private async fetchLatestGpsLog(userId: string): Promise<UserGpsLog | null> {
+  private async fetchLatestGpsLog(userId: number): Promise<UserGpsLog | null> {
     return this.userGpsLogRepository.findOne({
-      where: { user: { id: userId } },
+      where: { user: Number(userId) },
       order: { capturedAt: 'DESC' },
       relations: ['user'],
     });
+  }
+
+  private generateTemporaryPassword(): string {
+    return Math.random().toString(36).slice(-10);
   }
 }

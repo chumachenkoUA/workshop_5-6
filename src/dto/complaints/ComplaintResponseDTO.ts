@@ -18,7 +18,7 @@ export class ComplaintResponseDTO {
   message: string;
   status: string;
   user: {
-    id: string;
+    id: number;
     fullName: string;
   } | null;
   trip: TripPreview | null;

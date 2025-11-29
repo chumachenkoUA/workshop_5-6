@@ -1,8 +1,9 @@
 import { Check, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
+import { User } from '../users/User';
+
 import { CardTopUp } from './CardTopUp';
 import { Ticket } from './Ticket';
-import { TransitUser } from './TransitUser';
 
 @Unique('transport_cards_number_unique', ['number'])
 @Unique('transport_cards_user_unique', ['user'])
@@ -12,9 +13,9 @@ export class TransportCard {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: string;
 
-  @OneToOne(() => TransitUser, (user) => user.transportCard, { onDelete: 'CASCADE' })
+  @OneToOne(() => User, (user) => user.transportCard, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
-  user: TransitUser;
+  user: User;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: () => '0' })
   balance: string;

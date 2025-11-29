@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
-import { TransitUser } from 'orm/entities/transit/TransitUser';
 import { TransportCard } from 'orm/entities/transit/TransportCard';
+import { User } from 'orm/entities/users/User';
 import { CustomError } from 'utils/response/custom-error/CustomError';
 
 const RELATIONS = ['user', 'tickets', 'topUps'];
@@ -14,7 +14,7 @@ type TransportCardPayload = {
 
 export class TransportCardService {
   private transportCardRepository = getRepository(TransportCard);
-  private transitUserRepository = getRepository(TransitUser);
+  private userRepository = getRepository(User);
 
   public async findAll(): Promise<TransportCard[]> {
     return this.transportCardRepository.find({
@@ -32,7 +32,10 @@ export class TransportCardService {
   }
 
   public async create(payload: TransportCardPayload): Promise<TransportCard> {
-    const user = await this.transitUserRepository.findOne(payload.userId, { relations: ['transportCard'] });
+    const user = await this.userRepository.findOne({
+      where: { id: Number(payload.userId), role: 'TRANSIT' },
+      relations: ['transportCard'],
+    });
 
     if (!user) {
       throw new CustomError(404, 'General', `Transit user with id:${payload.userId} not found.`);
@@ -54,7 +57,10 @@ export class TransportCardService {
 
   public async update(id: string, payload: TransportCardPayload): Promise<TransportCard> {
     const card = await this.findOneOrFail(id);
-    const user = await this.transitUserRepository.findOne(payload.userId, { relations: ['transportCard'] });
+    const user = await this.userRepository.findOne({
+      where: { id: Number(payload.userId), role: 'TRANSIT' },
+      relations: ['transportCard'],
+    });
 
     if (!user) {
       throw new CustomError(404, 'General', `Transit user with id:${payload.userId} not found.`);

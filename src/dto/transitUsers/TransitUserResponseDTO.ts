@@ -1,5 +1,5 @@
-import { TransitUser } from 'orm/entities/transit/TransitUser';
 import { UserGpsLog } from 'orm/entities/transit/UserGpsLog';
+import { User } from 'orm/entities/users/User';
 
 type TransportCardPreview = {
   id: string;
@@ -27,7 +27,7 @@ type GpsLogPreview = {
 } | null;
 
 export class TransitUserResponseDTO {
-  id: string;
+  id: number;
   email: string;
   phone: string;
   fullName: string;
@@ -37,7 +37,7 @@ export class TransitUserResponseDTO {
   complaints: ComplaintPreview[];
   lastGpsLog: GpsLogPreview;
 
-  constructor(user: TransitUser, lastGpsLog: UserGpsLog | null) {
+  constructor(user: User, lastGpsLog: UserGpsLog | null) {
     this.id = user.id;
     this.email = user.email;
     this.phone = user.phone;

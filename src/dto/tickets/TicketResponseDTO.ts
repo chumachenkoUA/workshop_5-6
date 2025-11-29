@@ -27,7 +27,7 @@ type CardPreview = {
   id: string;
   number: string;
   user: {
-    id: string;
+    id: number;
     fullName: string;
     phone: string;
     email: string;

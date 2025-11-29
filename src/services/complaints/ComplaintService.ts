@@ -1,8 +1,8 @@
 import { getRepository } from 'typeorm';
 
 import { Complaint } from 'orm/entities/transit/Complaint';
-import { TransitUser } from 'orm/entities/transit/TransitUser';
 import { Trip } from 'orm/entities/transit/Trip';
+import { User } from 'orm/entities/users/User';
 import { CustomError } from 'utils/response/custom-error/CustomError';
 
 const RELATIONS = ['user', 'trip', 'trip.route', 'trip.driver'];
@@ -19,7 +19,7 @@ type UpdateComplaintPayload = CreateComplaintPayload;
 
 export class ComplaintService {
   private complaintRepository = getRepository(Complaint);
-  private transitUserRepository = getRepository(TransitUser);
+  private userRepository = getRepository(User);
   private tripRepository = getRepository(Trip);
 
   public async findAll(): Promise<Complaint[]> {
@@ -39,13 +39,10 @@ export class ComplaintService {
 
   public async create(payload: CreateComplaintPayload): Promise<Complaint> {
     const [user, trip] = await Promise.all([
-      this.transitUserRepository.findOne(payload.userId),
+      this.loadTransitUser(payload.userId),
       this.tripRepository.findOne(payload.tripId, { relations: ['route', 'driver'] }),
     ]);
 
-    if (!user) {
-      throw new CustomError(404, 'General', `Transit user with id:${payload.userId} not found.`);
-    }
     if (!trip) {
       throw new CustomError(404, 'General', `Trip with id:${payload.tripId} not found.`);
     }
@@ -66,13 +63,10 @@ export class ComplaintService {
     const complaint = await this.findOneOrFail(id);
 
     const [user, trip] = await Promise.all([
-      this.transitUserRepository.findOne(payload.userId),
+      this.loadTransitUser(payload.userId),
       this.tripRepository.findOne(payload.tripId, { relations: ['route', 'driver'] }),
     ]);
 
-    if (!user) {
-      throw new CustomError(404, 'General', `Transit user with id:${payload.userId} not found.`);
-    }
     if (!trip) {
       throw new CustomError(404, 'General', `Trip with id:${payload.tripId} not found.`);
     }
@@ -92,5 +86,13 @@ export class ComplaintService {
     if (!deleteResult.affected) {
       throw new CustomError(404, 'General', `Complaint with id:${id} not found.`);
     }
+  }
+
+  private async loadTransitUser(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: Number(id), role: 'TRANSIT' } });
+    if (!user) {
+      throw new CustomError(404, 'General', `Transit user with id:${id} not found.`);
+    }
+    return user;
   }
 }
