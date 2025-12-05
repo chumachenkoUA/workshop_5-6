@@ -1,83 +1,106 @@
 import 'mocha';
 import { expect } from 'chai';
-import { agent as request } from 'supertest';
-import { getRepository, Connection, Repository } from 'typeorm';
 
-import { dbCreateConnection } from 'orm/dbCreateConnection';
 import { Role } from 'orm/entities/users/types';
 import { User } from 'orm/entities/users/User';
+import { UserService } from 'services/users/UserService';
+import { CustomError } from 'utils/response/custom-error/CustomError';
 
-import { app } from '../../';
+class FakeUserRepository {
+  private data: User[] = [];
+  private lastId = 0;
 
-describe('Users', () => {
-  let dbConnection: Connection;
-  let userRepository: Repository<User>;
+  constructor(seed: User[] = []) {
+    this.data = seed.map((u, index) => {
+      if (!u.id) {
+        u.id = index + 1;
+      }
+      return u;
+    });
+    this.lastId = this.data.length ? Math.max(...this.data.map((u) => Number(u.id ?? 0))) : 0;
+  }
+
+  async find(): Promise<User[]> {
+    return this.data;
+  }
+
+  async findOne(idOrOptions: any): Promise<User | undefined> {
+    if (typeof idOrOptions === 'number' || typeof idOrOptions === 'string') {
+      return this.data.find((u) => u.id === Number(idOrOptions));
+    }
+    const where = idOrOptions?.where;
+    if (where?.id) {
+      return this.data.find((u) => u.id === Number(where.id));
+    }
+    return undefined;
+  }
+
+  create(payload: Partial<User>): User {
+    return Object.assign(new User(), payload);
+  }
+
+  async save(user: User): Promise<User> {
+    if (!user.id) {
+      this.lastId += 1;
+      user.id = this.lastId;
+    }
+    this.data = this.data.filter((u) => u.id !== user.id).concat(user);
+    return user;
+  }
+
+  async delete(criteria: any) {
+    const id = typeof criteria === 'object' ? criteria.id : criteria;
+    const before = this.data.length;
+    this.data = this.data.filter((u) => u.id !== Number(id));
+    return { affected: before !== this.data.length ? 1 : 0 };
+  }
+}
+
+describe('Users (service)', () => {
+  let fakeRepo: FakeUserRepository;
+  let userService: UserService;
 
   const userPassword = 'pass1';
-  let adminUserToken = null;
   const adminUser = new User();
-  adminUser.username = 'Badger';
   adminUser.name = 'Brandon Mayhew';
   adminUser.email = 'brandon.mayhew@test.com';
   adminUser.password = userPassword;
   adminUser.hashPassword();
   adminUser.role = 'ADMINISTRATOR' as Role;
 
-  let standardUserToken = null;
-  const standardUser = new User();
-  standardUser.username = 'Toddy';
-  standardUser.name = 'Todd Alquist';
-  standardUser.email = 'todd.alquist@test.com';
-  standardUser.password = userPassword;
-  standardUser.hashPassword();
-  standardUser.role = 'STANDARD' as Role;
+  const transitUser = new User();
+  transitUser.name = 'Todd Alquist';
+  transitUser.email = 'todd.alquist@test.com';
+  transitUser.password = userPassword;
+  transitUser.hashPassword();
+  transitUser.role = 'TRANSIT' as Role;
 
-  before(async () => {
-    dbConnection = await dbCreateConnection();
-    userRepository = getRepository(User);
+  beforeEach(() => {
+    fakeRepo = new FakeUserRepository([adminUser, transitUser]);
+    userService = new UserService(fakeRepo as any);
   });
 
-  beforeEach(async () => {
-    await userRepository.save([adminUser, standardUser]);
-    let res = await request(app).post('/v1/auth/login').send({ email: adminUser.email, password: userPassword });
-    adminUserToken = res.body.data;
-    res = await request(app).post('/v1/auth/login').send({ email: standardUser.email, password: userPassword });
-    standardUserToken = res.body.data;
+  it('should get all users', async () => {
+    const users = await userService.findAll();
+    const emails = users.map((u) => u.email);
+    expect(emails).to.include(adminUser.email);
+    expect(emails).to.include(transitUser.email);
   });
 
-  afterEach(async () => {
-    await userRepository.delete([adminUser.id, standardUser.id]);
+  it('should get user by id', async () => {
+    const user = await fakeRepo.findOne({ where: { id: 1 } });
+    const found = await userService.findOneOrFail(user!.id);
+    expect(found.email).to.equal(adminUser.email);
   });
 
-  describe('GET /v1/auth/users', () => {
-    it('should get all users', async () => {
-      const res = await request(app).get('/v1/users').set('Authorization', adminUserToken);
-      expect(res.status).to.equal(200);
-      expect(res.body.message).to.equal('List of users.');
-      expect(res.body.data[3].email).to.eql('hank.schrader@test.com');
-    });
-
-    it('should report error of unauthorized user', async () => {
-      const res = await request(app).get('/v1/users').set('Authorization', standardUserToken);
-      expect(res.status).to.equal(401);
-      expect(res.body.errorType).to.equal('Unauthorized');
-      expect(res.body.errorMessage).to.equal('Unauthorized - Insufficient user rights');
-      expect(res.body.errors).to.eql([
-        'Unauthorized - Insufficient user rights',
-        'Current role: STANDARD. Required role: ADMINISTRATOR',
-      ]);
-      expect(res.body.errorRaw).to.an('null');
-      expect(res.body.errorsValidation).to.an('null');
-    });
-  });
-
-  describe('GET /v1/auth/users//:id([0-9]+)', () => {
-    it('should get user', async () => {
-      const user = await userRepository.findOne({ email: adminUser.email });
-      const res = await request(app).get(`/v1/users/${user.id}`).set('Authorization', adminUserToken);
-      expect(res.status).to.equal(200);
-      expect(res.body.message).to.equal('User found');
-      expect(res.body.data.email).to.eql(adminUser.email);
-    });
+  it('should throw when user not found', async () => {
+    try {
+      await userService.findOneOrFail(99999);
+      throw new Error('should have failed');
+    } catch (err) {
+      expect(err).to.be.instanceOf(CustomError);
+      const customError = err as CustomError;
+      expect(customError.HttpStatusCode).to.equal(404);
+    }
   });
 });

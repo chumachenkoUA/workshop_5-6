@@ -32,13 +32,6 @@ export class User {
 
   @Column({
     nullable: true,
-    unique: true,
-    length: 40,
-  })
-  username: string;
-
-  @Column({
-    nullable: true,
     length: 40,
   })
   name: string;
@@ -64,7 +57,7 @@ export class User {
   registeredAt: Date;
 
   @Column({
-    default: 'STANDARD' as Role,
+    default: 'TRANSIT' as Role,
     length: 30,
   })
   role: Role;

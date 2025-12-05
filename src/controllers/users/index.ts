@@ -1,3 +1,4 @@
+export * from './createDispatcher';
 export * from './destroy';
 export * from './edit';
 export * from './list';

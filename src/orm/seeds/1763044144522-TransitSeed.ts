@@ -103,6 +103,14 @@ export class TransitSeed17630441445221763044144522 implements MigrationInterface
     `);
 
     await queryRunner.query(`
+      UPDATE transport_cards tc
+      SET balance = COALESCE((
+        SELECT SUM(amount) FROM card_top_ups WHERE card_id = tc.id
+      ), 0)
+      WHERE tc.id IN (1,2,3,4);
+    `);
+
+    await queryRunner.query(`
       INSERT INTO trips (id, route_id, vehicle_id, driver_id, started_at, ended_at, passenger_count) VALUES
         (1,1,1,1,'2025-06-09 08:00','2025-06-09 08:40',0),
         (2,1,2,2,'2025-06-09 09:00','2025-06-09 09:40',0),
