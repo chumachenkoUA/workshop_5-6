@@ -1,3 +1,4 @@
+import './ensureSlowBuffer';
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 
 import { JwtPayload } from '../types/JwtPayload';
