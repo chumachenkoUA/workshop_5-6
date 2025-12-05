@@ -1,4 +1,4 @@
-#  TypeORM / Express / TypeScript RESTful API boilerplate
+# TypeORM / Express / TypeScript RESTful API boilerplate
 
 [![CI][build-badge]][build-url]
 [![TypeScript][typescript-badge]][typescript-url]
@@ -26,6 +26,33 @@ _Easily set up a local development environment with single command!_
 - `npm run docker:dev` 🚀
 
 Visit [localhost:4000](http://localhost:4000/) or if using Postman grab [config](/postman).
+
+## Domain (Workshop 5)
+
+- Transit domain with users (TRANSIT, DISPATCHER, ADMINISTRATOR) and auth; transport types → routes → route stops/points → schedules/vehicles → trips.
+- Vehicles belong to a transport type and route; drivers are bound to vehicles via driver assignments.
+- Trips link a route, vehicle and driver and have tickets, fines, fine appeals and complaints.
+- Transit users hold transport cards with top-ups; both transit users and vehicles have GPS logs.
+- All entities are created via migrations (`src/orm/migrations/1762785696596-CreateTransitEntities.ts`) and seeded (`src/orm/seeds/1763044144522-TransitSeed.ts`).
+
+## API endpoints (v1)
+
+- Auth: `POST /v1/auth/login`, `POST /v1/auth/register`, `POST /v1/auth/change-password`
+- Users: `GET /v1/users`, `GET /v1/users/:id`, `POST /v1/users/dispatchers`, `PATCH /v1/users/:id`, `DELETE /v1/users/:id`
+- Transport types: `GET/POST/PATCH/DELETE /v1/transport-types`
+- Routes (with transport type, stops, points, vehicles, schedule): `GET/POST/PATCH/DELETE /v1/routes`
+- Route stops: `GET/POST/PATCH/DELETE /v1/route-stops`; Route points: `GET/POST/PATCH/DELETE /v1/route-points`
+- Stops: `GET/POST/PATCH/DELETE /v1/stops`; Schedules: `GET/POST/PATCH/DELETE /v1/schedules`
+- Vehicles: `GET/POST/PATCH/DELETE /v1/vehicles`; Driver assignments: `GET/POST/PATCH/DELETE /v1/driver-assignments`; Drivers: `GET/POST/PATCH/DELETE /v1/drivers`
+- Trips: `GET/POST/PATCH/DELETE /v1/trips` (route + vehicle + driver join)
+- Transport cards: `GET/POST/PATCH/DELETE /v1/transport-cards`, `GET /v1/transport-cards/me`; Card top-ups: `GET/POST/PATCH/DELETE /v1/card-top-ups`
+- Tickets: `GET/POST/PATCH/DELETE /v1/tickets`; Fines: `GET/POST/PATCH/DELETE /v1/fines`; Fine appeals: `GET/POST/PATCH/DELETE /v1/fine-appeals`; Complaints: `GET/POST/PATCH/DELETE /v1/complaints`
+- GPS logs: `GET/POST/PATCH/DELETE /v1/user-gps-logs`, `GET/POST/PATCH/DELETE /v1/vehicle-gps-logs`
+
+## Postman evidence
+
+- Validation failure example (middleware blocks malformed payload): `docs/screenshots/workshop-6/validation-error.png`
+- Successful response with joined relations (DTO in reply): `docs/screenshots/workshop-6/success-response.png`
 
 ### _What happened_ 💥
 
@@ -61,6 +88,88 @@ Containers created:
 - Automated npm & Docker dependency updates with [Renovate](https://github.com/renovatebot/renovate) (set to patch version only)
 - Commit messages must meet [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) format.  
   After staging changes just run `npm run commit` and get instant feedback on your commit message formatting and be prompted for required fields by [Commitizen](https://github.com/commitizen/cz-cli)
+
+## Workshop 6 Architecture (services+ validation + DTO)
+
+To keep controllers slim we introduced three explicit layers:
+
+- **Middleware validation** – e.g. `src/middleware/validation/trips.ts` trims/normalises IDs, converts dates and rejects invalid payloads _before_ a controller executes.
+- **Controllers** – request orchestration only. They create a service instance, pass already validated data, and shape the HTTP response.
+- **Services** – all business logic and repository access (TypeORM) live here. Every entity has a single service (`src/services/**`) that hides persistence details from controllers.
+- **Repositories/DataSource** – managed solely by services through `getRepository`, keeping data access isolated.
+
+### Example middleware
+
+```ts
+// src/middleware/validation/trips.ts
+export const validateTripPayload = (req, _res, next) => {
+  req.body.routeId = parseId(req.body.routeId, 'Route id');
+  req.body.vehicleId = parseId(req.body.vehicleId, 'Vehicle id');
+  req.body.driverId = parseId(req.body.driverId, 'Driver id');
+  req.body.startedAt = parseDate(req.body.startedAt, 'Started at');
+  req.body.endedAt = parseDate(req.body.endedAt, 'Ended at');
+  if (req.body.endedAt <= req.body.startedAt) {
+    throw new CustomError(422, 'Validation', 'Ended at must be greater than started at.');
+  }
+  req.body.passengerCount = parsePassengerCount(req.body.passengerCount);
+  return next();
+};
+```
+
+### Example DTO + service
+
+```ts
+// src/dto/stops/StopResponseDTO.ts
+export class StopResponseDTO {
+  constructor(stop: Stop) {
+    this.id = stop.id;
+    this.name = stop.name;
+    this.latitude = stop.latitude;
+    this.longitude = stop.longitude;
+    this.routeStops =
+      stop.routeStops?.map((routeStop) => ({
+        id: routeStop.id,
+        route: routeStop.route
+          ? {
+              id: routeStop.route.id,
+              number: routeStop.route.number,
+              direction: routeStop.route.direction,
+              transportType: routeStop.route.transportType
+                ? { id: routeStop.route.transportType.id, name: routeStop.route.transportType.name }
+                : null,
+            }
+          : null,
+      })) ?? [];
+  }
+}
+```
+
+```ts
+// src/services/stops/StopService.ts
+export class StopService {
+  private stopRepository = getRepository(Stop);
+
+  public async create(payload: StopPayload): Promise<Stop> {
+    const stop = this.stopRepository.create(payload);
+    const saved = await this.stopRepository.save(stop);
+    return this.findOneOrFail(saved.id);
+  }
+
+  public async delete(id: string): Promise<void> {
+    const deleteResult = await this.stopRepository.delete(id);
+    if (!deleteResult.affected) {
+      throw new CustomError(404, 'General', `Stop with id:${id} not found.`);
+    }
+  }
+}
+```
+
+### Postman flows
+
+- **Validation error** (middleware rejects malformed payload):  
+  ![Validation error screenshot](docs/screenshots/workshop-6/validation-error.png)
+- **Successful DTO response** (controller returns DTO-wrapped entity):  
+  ![Success screenshot](docs/screenshots/workshop-6/success-response.png)
 
 ## Other awesome boilerplates:
 

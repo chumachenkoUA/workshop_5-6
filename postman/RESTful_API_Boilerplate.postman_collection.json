@@ -55,9 +55,9 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/login",
+              "raw": "{{baseUrl}}/auth/login",
               "host": ["{{baseUrl}}"],
-              "path": ["login"]
+              "path": ["auth", "login"]
             }
           },
           "response": []
@@ -100,9 +100,9 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/register",
+              "raw": "{{baseUrl}}/auth/register",
               "host": ["{{baseUrl}}"],
-              "path": ["register"]
+              "path": ["auth", "register"]
             }
           },
           "response": []
@@ -150,9 +150,9 @@
               ]
             },
             "url": {
-              "raw": "{{baseUrl}}/change-password",
+              "raw": "{{baseUrl}}/auth/change-password",
               "host": ["{{baseUrl}}"],
-              "path": ["change-password"]
+              "path": ["auth", "change-password"]
             }
           },
           "response": []
@@ -359,6 +359,2956 @@
         }
       ],
       "protocolProfileBehavior": {}
+    },
+    {
+      "name": "Transit",
+      "item": [
+        {
+          "name": "Card Top-Ups",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/card-top-ups",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["card-top-ups"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/card-top-ups/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["card-top-ups", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/card-top-ups",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["card-top-ups"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cardId\": \"1\",\n  \"amount\": \"10.00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/card-top-ups/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["card-top-ups", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": \"20.00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/card-top-ups/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["card-top-ups", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Complaints",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/complaints",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["complaints"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/complaints/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["complaints", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/complaints",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["complaints"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"tripId\": \"1\",\n  \"type\": \"Service\",\n  \"message\": \"Late arrival\",\n  \"status\": \"Подано\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/complaints/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["complaints", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"tripId\": \"1\",\n  \"type\": \"Service\",\n  \"message\": \"Still waiting\",\n  \"status\": \"Розглядається\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/complaints/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["complaints", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Driver Assignments",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/driver-assignments",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["driver-assignments"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/driver-assignments/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["driver-assignments", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/driver-assignments",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["driver-assignments"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"driverId\": \"1\",\n  \"vehicleId\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/driver-assignments/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["driver-assignments", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"driverId\": \"1\",\n  \"vehicleId\": \"2\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/driver-assignments/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["driver-assignments", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Drivers",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/drivers",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["drivers"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/drivers/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["drivers", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/drivers",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["drivers"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"driver1@example.com\",\n  \"phone\": \"+380990000001\",\n  \"fullName\": \"John Driver\",\n  \"licenseData\": \"AB123456\",\n  \"passportData\": {\n    \"type\": \"paper\",\n    \"series\": \"АН\",\n    \"number\": \"123456\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/drivers/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["drivers", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"driver1@example.com\",\n  \"phone\": \"+380990000002\",\n  \"fullName\": \"John Driver Updated\",\n  \"licenseData\": \"AB654321\",\n  \"passportData\": {\n    \"type\": \"idCard\",\n    \"number\": \"ID123456\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/drivers/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["drivers", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Fines",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fines",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fines"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fines/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fines", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fines",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fines"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"tripId\": \"1\",\n  \"status\": \"В процесі\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fines/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fines", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"tripId\": \"1\",\n  \"status\": \"Оплачено\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fines/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fines", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Fine Appeals",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fine-appeals",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fine-appeals"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fine-appeals/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fine-appeals", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fine-appeals",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fine-appeals"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fineId\": \"1\",\n  \"message\": \"Please review\",\n  \"status\": \"Подано\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fine-appeals/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fine-appeals", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fineId\": \"1\",\n  \"message\": \"Additional info\",\n  \"status\": \"Перевіряється\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/fine-appeals/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["fine-appeals", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Routes",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/routes",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["routes"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/routes/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["routes", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/routes",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["routes"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transportTypeId\": \"1\",\n  \"number\": \"12A\",\n  \"direction\": \"прямий\",\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/routes/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["routes", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transportTypeId\": \"1\",\n  \"number\": \"12A\",\n  \"direction\": \"зворотній\",\n  \"active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/routes/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["routes", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Route Points",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-points",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-points"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-points/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-points", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-points",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-points"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"latitude\": \"50.4500000\",\n  \"longitude\": \"30.5233333\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-points/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-points", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"latitude\": \"50.4510000\",\n  \"longitude\": \"30.5243333\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-points/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-points", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Route Stops",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-stops",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-stops"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-stops/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-stops", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-stops",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-stops"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"stopId\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-stops/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-stops", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"stopId\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/route-stops/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["route-stops", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Schedules",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/schedules",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["schedules"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/schedules/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["schedules", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/schedules",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["schedules"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"workdayStart\": \"06:00\",\n  \"workdayEnd\": \"23:00\",\n  \"intervalMinutes\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/schedules/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["schedules", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"workdayStart\": \"07:00\",\n  \"workdayEnd\": \"22:00\",\n  \"intervalMinutes\": 12\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/schedules/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["schedules", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Stops",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/stops",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["stops"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/stops/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["stops", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/stops",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["stops"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Central Station\",\n  \"latitude\": \"50.4501000\",\n  \"longitude\": \"30.5234000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/stops/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["stops", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Central Station Updated\",\n  \"latitude\": \"50.4502000\",\n  \"longitude\": \"30.5235000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/stops/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["stops", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Tickets",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tickets",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["tickets"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tickets/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["tickets", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tickets",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["tickets"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tripId\": \"1\",\n  \"cardId\": \"1\",\n  \"price\": \"15.00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tickets/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["tickets", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tripId\": \"1\",\n  \"cardId\": \"1\",\n  \"price\": \"20.00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tickets/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["tickets", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Transit Users",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transit-users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transit-users"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transit-users/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transit-users", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transit-users",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transit-users"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"transit.user@example.com\",\n  \"phone\": \"+380991112233\",\n  \"fullName\": \"Transit User\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transit-users/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transit-users", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"transit.user@example.com\",\n  \"phone\": \"+380994445566\",\n  \"fullName\": \"Transit User Updated\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transit-users/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transit-users", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Transport Cards",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-cards",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-cards"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-cards/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-cards", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-cards",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-cards"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"number\": \"CARD-1001\",\n  \"balance\": \"50.00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-cards/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-cards", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"number\": \"CARD-1001\",\n  \"balance\": \"60.00\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-cards/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-cards", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Transport Types",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-types"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-types", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-types",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-types"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Trolleybus\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-types", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Express Trolleybus\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/transport-types/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["transport-types", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Trips",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/trips",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["trips"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/trips/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["trips", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/trips",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["trips"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"vehicleId\": \"1\",\n  \"driverId\": \"1\",\n  \"startedAt\": \"2025-01-01T08:00:00.000Z\",\n  \"endedAt\": \"2025-01-01T09:00:00.000Z\",\n  \"passengerCount\": 25\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/trips/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["trips", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"routeId\": \"1\",\n  \"vehicleId\": \"1\",\n  \"driverId\": \"1\",\n  \"startedAt\": \"2025-01-01T10:00:00.000Z\",\n  \"endedAt\": \"2025-01-01T11:00:00.000Z\",\n  \"passengerCount\": 30\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/trips/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["trips", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "User GPS Logs",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user-gps-logs",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user-gps-logs"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user-gps-logs/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user-gps-logs", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user-gps-logs",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user-gps-logs"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"latitude\": \"50.4505000\",\n  \"longitude\": \"30.5239000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user-gps-logs/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user-gps-logs", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"userId\": \"1\",\n  \"latitude\": \"50.4506000\",\n  \"longitude\": \"30.5240000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user-gps-logs/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["user-gps-logs", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Vehicle GPS Logs",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicle-gps-logs",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicle-gps-logs"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicle-gps-logs/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicle-gps-logs", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicle-gps-logs",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicle-gps-logs"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vehicleId\": \"1\",\n  \"latitude\": \"50.4515000\",\n  \"longitude\": \"30.5259000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicle-gps-logs/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicle-gps-logs", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vehicleId\": \"1\",\n  \"latitude\": \"50.4516000\",\n  \"longitude\": \"30.5260000\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicle-gps-logs/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicle-gps-logs", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Vehicles",
+          "item": [
+            {
+              "name": "GET All",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "GET By Id",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Create",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"boardNumber\": \"AB-001\",\n  \"capacity\": 40,\n  \"transportTypeId\": \"1\",\n  \"routeId\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "PATCH Update",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "name": "Content-Type",
+                    "type": "text",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"boardNumber\": \"AB-001\",\n  \"capacity\": 45,\n  \"transportTypeId\": \"1\",\n  \"routeId\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE Remove",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept-Language",
+                    "type": "text",
+                    "value": "{{language}}"
+                  },
+                  {
+                    "key": "Authorization",
+                    "type": "text",
+                    "value": "{{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/vehicles/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["vehicles", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
     }
   ],
   "protocolProfileBehavior": {}

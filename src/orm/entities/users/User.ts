@@ -1,5 +1,18 @@
 import bcrypt from 'bcryptjs';
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
+
+import { Complaint } from '../transit/Complaint';
+import { Fine } from '../transit/Fine';
+import { TransportCard } from '../transit/TransportCard';
+import { UserGpsLog } from '../transit/UserGpsLog';
 
 import { Role, Language } from './types';
 
@@ -19,22 +32,35 @@ export class User {
 
   @Column({
     nullable: true,
-    unique: true,
-    length: 40,
-  })
-  username: string;
-
-  @Column({
-    nullable: true,
     length: 40,
   })
   name: string;
 
   @Column({
-    default: 'STANDARD' as Role,
+    nullable: true,
+    unique: true,
+  })
+  phone: string;
+
+  @Column({
+    name: 'full_name',
+    nullable: true,
+  })
+  fullName: string;
+
+  @Column({
+    name: 'registered_at',
+    type: 'timestamp without time zone',
+    nullable: true,
+    default: () => 'now()',
+  })
+  registeredAt: Date;
+
+  @Column({
+    default: 'TRANSIT' as Role,
     length: 30,
   })
-  role: string;
+  role: Role;
 
   @Column({
     default: 'en-US' as Language,
@@ -49,6 +75,18 @@ export class User {
   @Column()
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToOne(() => TransportCard, (card) => card.user)
+  transportCard?: TransportCard;
+
+  @OneToMany(() => Complaint, (complaint) => complaint.user)
+  complaints?: Complaint[];
+
+  @OneToMany(() => Fine, (fine) => fine.user)
+  fines?: Fine[];
+
+  @OneToMany(() => UserGpsLog, (log) => log.user)
+  gpsLogs?: UserGpsLog[];
 
   setLanguage(language: Language) {
     this.language = language;
