@@ -27,6 +27,33 @@ _Easily set up a local development environment with single command!_
 
 Visit [localhost:4000](http://localhost:4000/) or if using Postman grab [config](/postman).
 
+## Domain (Workshop 5)
+
+- Transit domain with users (TRANSIT, DISPATCHER, ADMINISTRATOR) and auth; transport types → routes → route stops/points → schedules/vehicles → trips.
+- Vehicles belong to a transport type and route; drivers are bound to vehicles via driver assignments.
+- Trips link a route, vehicle and driver and have tickets, fines, fine appeals and complaints.
+- Transit users hold transport cards with top-ups; both transit users and vehicles have GPS logs.
+- All entities are created via migrations (`src/orm/migrations/1762785696596-CreateTransitEntities.ts`) and seeded (`src/orm/seeds/1763044144522-TransitSeed.ts`).
+
+## API endpoints (v1)
+
+- Auth: `POST /v1/auth/login`, `POST /v1/auth/register`, `POST /v1/auth/change-password`
+- Users: `GET /v1/users`, `GET /v1/users/:id`, `POST /v1/users/dispatchers`, `PATCH /v1/users/:id`, `DELETE /v1/users/:id`
+- Transport types: `GET/POST/PATCH/DELETE /v1/transport-types`
+- Routes (with transport type, stops, points, vehicles, schedule): `GET/POST/PATCH/DELETE /v1/routes`
+- Route stops: `GET/POST/PATCH/DELETE /v1/route-stops`; Route points: `GET/POST/PATCH/DELETE /v1/route-points`
+- Stops: `GET/POST/PATCH/DELETE /v1/stops`; Schedules: `GET/POST/PATCH/DELETE /v1/schedules`
+- Vehicles: `GET/POST/PATCH/DELETE /v1/vehicles`; Driver assignments: `GET/POST/PATCH/DELETE /v1/driver-assignments`; Drivers: `GET/POST/PATCH/DELETE /v1/drivers`
+- Trips: `GET/POST/PATCH/DELETE /v1/trips` (route + vehicle + driver join)
+- Transport cards: `GET/POST/PATCH/DELETE /v1/transport-cards`, `GET /v1/transport-cards/me`; Card top-ups: `GET/POST/PATCH/DELETE /v1/card-top-ups`
+- Tickets: `GET/POST/PATCH/DELETE /v1/tickets`; Fines: `GET/POST/PATCH/DELETE /v1/fines`; Fine appeals: `GET/POST/PATCH/DELETE /v1/fine-appeals`; Complaints: `GET/POST/PATCH/DELETE /v1/complaints`
+- GPS logs: `GET/POST/PATCH/DELETE /v1/user-gps-logs`, `GET/POST/PATCH/DELETE /v1/vehicle-gps-logs`
+
+## Postman evidence
+
+- Validation failure example (middleware blocks malformed payload): `docs/screenshots/workshop-6/validation-error.png`
+- Successful response with joined relations (DTO in reply): `docs/screenshots/workshop-6/success-response.png`
+
 ### _What happened_ 💥
 
 Containers created:
