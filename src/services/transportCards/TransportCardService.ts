@@ -31,6 +31,23 @@ export class TransportCardService {
     return card;
   }
 
+  public async findMine(userId: number): Promise<TransportCard> {
+    const user = await this.userRepository.findOne({
+      where: { id: Number(userId), role: 'TRANSIT' },
+      relations: ['transportCard'],
+    });
+
+    if (!user) {
+      throw new CustomError(404, 'General', `Transit user with id:${userId} not found.`);
+    }
+
+    if (!user.transportCard) {
+      throw new CustomError(404, 'General', `Transport card for user id:${userId} not found.`);
+    }
+
+    return this.findOneOrFail(user.transportCard.id);
+  }
+
   public async create(payload: TransportCardPayload): Promise<TransportCard> {
     const user = await this.userRepository.findOne({
       where: { id: Number(payload.userId), role: 'TRANSIT' },
